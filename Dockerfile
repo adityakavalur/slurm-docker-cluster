@@ -42,6 +42,8 @@ RUN ln -s /usr/bin/python3.4 /usr/bin/python3 \
     && useradd user1 \
     && useradd user2 \
     && yum -y install openmpi openmpi-devel
+
+ENV PATH="/usr/lib64/openmpi/bin/:$PATH"
     
 RUN pip install Cython nose && pip3.4 install Cython nose
 
