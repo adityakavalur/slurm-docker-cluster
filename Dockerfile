@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.source="https://github.com/giovtorres/slurm-docke
       org.label-schema.docker.cmd="docker-compose up -d" \
       maintainer="Giovanni Torres"
 
-ARG SLURM_TAG=slurm-19-05-1-2
+ARG SLURM_TAG=slurm-20-02-4-1
 ARG GOSU_VERSION=1.11
 
 RUN set -ex \
@@ -37,6 +37,12 @@ RUN set -ex \
     && yum clean all \
     && rm -rf /var/cache/yum
 
+RUN ln -s /usr/bin/python3.4 /usr/bin/python3 \
+    && useradd user_xalt \
+    && useradd user1 \
+    && useradd user2 \
+    && yum -y install openmpi openmpi-devel
+    
 RUN pip install Cython nose && pip3.4 install Cython nose
 
 RUN set -ex \
