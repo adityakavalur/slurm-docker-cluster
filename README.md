@@ -66,6 +66,16 @@ script:
 > You can check the status of the cluster by viewing the logs: `docker-compose
 > logs -f`
 
+## Adding users to the Cluster
+
+To add users to the cluster, run the `addusers.sh` script:
+
+```console
+./addusers.sh
+```
+> Note: You must ensure any new user added to the slurm database already exists
+> in the docker image. This is currently being done through the Dockerfile.
+
 ## Accessing the Cluster
 
 Use `docker exec` to run a bash shell on the controller container:
