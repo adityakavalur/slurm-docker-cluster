@@ -19,6 +19,7 @@ RUN set -ex \
        perl \
        gcc \
        gcc-c++\
+       gcc-gfortran \
        git \
        gnupg \
        make \
@@ -37,13 +38,21 @@ RUN set -ex \
     && yum clean all \
     && rm -rf /var/cache/yum
 
+RUN \
+    cd /usr/local/src/ && \
+    wget http://www.mpich.org/static/downloads/3.3/mpich-3.3.tar.gz && \
+    tar xf mpich-3.3.tar.gz && \
+    rm mpich-3.3.tar.gz && \
+    cd mpich-3.3 && \
+    ./configure && \
+    make && make install && \
+    cd /usr/local/src && \
+    rm -rf mpich-3.3
+
 RUN ln -s /usr/bin/python3.4 /usr/bin/python3 \
     && useradd user_xalt \
     && useradd user1 \
-    && useradd user2 \
-    && yum -y install openmpi openmpi-devel
-
-ENV PATH="/usr/lib64/openmpi/bin/:$PATH"
+    && useradd user2 
     
 RUN pip install Cython nose && pip3.4 install Cython nose
 
