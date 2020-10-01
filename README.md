@@ -11,8 +11,8 @@ The compose file will run the following containers:
 * mysql
 * slurmdbd
 * slurmctld
-* c1 (slurmd)
-* c2 (slurmd)
+* compute1 (slurmd)
+* compute2 (slurmd)
 
 The compose file will create the following named volumes:
 
@@ -76,6 +76,25 @@ To add users to the cluster, run the `addusers.sh` script:
 > Note: You must ensure any new user added to the slurm database already exists
 > in the docker image. This is currently being done through the Dockerfile.
 
+## Moving source code into the docker
+
+To move source code into the cluster, run the `codes_from_source.sh` script. This moves 
+the folder in MPI_Examples into the container under /data, which is mounted on the 'login' 
+as well as compute nodes. The default setting is to assign ownership of the folder to root, 
+however, you can pass an argument to override that
+```console
+./codes_from_source.sh user1
+```  
+
+## Installing Lmod
+
+To install Lmod run the script `lmod.sh`. This will install lmod in /data and put necessary 
+files in /usr/local, /usr/include and /etc/profile.d on the 'login' and compute nodes.
+```console
+./lmod.sh
+```
+ 
+
 ## Accessing the Cluster
 
 Use `docker exec` to run a bash shell on the controller container:
@@ -89,7 +108,7 @@ From the shell, execute slurm commands, for example:
 ```console
 [root@slurmctld /]# sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-normal*      up 5-00:00:00      2   idle c[1-2]
+normal*      up 5-00:00:00      2   idle compute[1-2]
 ```
 
 ## Submitting Jobs
