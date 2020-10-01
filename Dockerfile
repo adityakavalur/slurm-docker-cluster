@@ -35,9 +35,12 @@ RUN set -ex \
        psmisc \
        bash-completion \
        vim-enhanced \
+       patch \
     && yum clean all \
     && rm -rf /var/cache/yum
 
+
+#MPICH (optional)
 RUN \
     cd /usr/local/src/ && \
     wget http://www.mpich.org/static/downloads/3.3/mpich-3.3.tar.gz && \
@@ -48,6 +51,12 @@ RUN \
     make && make install && \
     cd /usr/local/src && \
     rm -rf mpich-3.3
+
+#Lmod dependencies (Optional)
+RUN \
+    yum -y install tcl-8.5.13-8.el7.x86_64  \
+                   tcl-devel-8.5.13-8.el7.x86_64 \
+                   lua-posix
 
 RUN ln -s /usr/bin/python3.4 /usr/bin/python3 \
     && useradd user_xalt \

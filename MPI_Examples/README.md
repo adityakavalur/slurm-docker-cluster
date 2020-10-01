@@ -31,3 +31,12 @@ cd /data/MPI_Examples
 make
 sbatch hello_world.sh
 ```
+
+Example lmod module file can be found in 0.lua. Copy the module file to the modulefiles folder. 
+```console  
+mkdir /data/modulefiles/hello-world
+mv 0.lua /data/modulefiles/hello-world 
+```
+
+> Note: Change the default job submission file to include the module load command and replace the executable call.
+ 
