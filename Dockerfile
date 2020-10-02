@@ -27,9 +27,9 @@ RUN set -ex \
        munge-devel \
        python-devel \
        python-pip \
-       python34 \
-       python34-devel \
-       python34-pip \
+       python3 \
+       python3-devel \
+       python3-pip \
        mariadb-server \
        mariadb-devel \
        psmisc \
@@ -38,6 +38,14 @@ RUN set -ex \
        patch \
     && yum clean all \
     && rm -rf /var/cache/yum
+
+
+#Xalt2 dependencies (Optional)
+RUN \
+    pip3 install mysqlclient && \
+    yum -y install mysql-devel uuid-devel libuuid-devel curl-devel \
+		   elfutils-libelf-devel bc && \
+    yum -y group install "Development Tools"
 
 
 #MPICH (optional)
@@ -52,18 +60,20 @@ RUN \
     cd /usr/local/src && \
     rm -rf mpich-3.3
 
-#Lmod dependencies (Optional)
+#Lmod/Tcl dependencies (Optional)
 RUN \
     yum -y install tcl-8.5.13-8.el7.x86_64  \
                    tcl-devel-8.5.13-8.el7.x86_64 \
-                   lua-posix
+                   lua-posix \
+		   dejagnu man-db sphinx-build dh-autoreconf 
 
-RUN ln -s /usr/bin/python3.4 /usr/bin/python3 \
-    && useradd user_xalt \
+
+RUN  \
+       useradd user_xalt \
     && useradd user1 \
     && useradd user2 
     
-RUN pip install Cython nose && pip3.4 install Cython nose
+RUN pip install Cython nose && pip3 install Cython nose
 
 RUN set -ex \
     && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64" \

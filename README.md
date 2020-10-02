@@ -66,9 +66,9 @@ script:
 > You can check the status of the cluster by viewing the logs: `docker-compose
 > logs -f`
 
-## Adding users to the Cluster
+## Adding users to Slurm
 
-To add users to the cluster, run the `addusers.sh` script:
+To add users to slurm, so that they can submit jobs, update and run the `addusers.sh` script:
 
 ```console
 ./addusers.sh
@@ -76,7 +76,7 @@ To add users to the cluster, run the `addusers.sh` script:
 > Note: You must ensure any new user added to the slurm database already exists
 > in the docker image. This is currently being done through the Dockerfile.
 
-## Moving source code into the docker
+## Moving source code into the container
 
 To move source code into the cluster, run the `codes_from_source.sh` script. This moves 
 the folder in MPI_Examples into the container under /data, which is mounted on the 'login' 
@@ -86,6 +86,18 @@ however, you can pass an argument to override that
 ./codes_from_source.sh user1
 ```  
 
+## Installing environment modules
+To install environment modules, run the script `envmod.sh`. This will install tcl and environment
+modules in /data 
+
+To install Lmod run the script `lmod.sh`. This will install lmod in /data and put necessary 
+files in /usr/local, /usr/include and /etc/profile.d on the 'login' and compute nodes.
+```console
+./lmod.sh
+```
+> Note: There is an example module file in MPI_Examples 
+ 
+
 ## Installing Lmod
 
 To install Lmod run the script `lmod.sh`. This will install lmod in /data and put necessary 
@@ -93,6 +105,7 @@ files in /usr/local, /usr/include and /etc/profile.d on the 'login' and compute 
 ```console
 ./lmod.sh
 ```
+> Note: There is an example module file in MPI_Examples 
  
 
 ## Accessing the Cluster
@@ -134,10 +147,12 @@ docker-compose start
 
 ## Deleting the Cluster
 
-To remove all containers and volumes, run:
+To remove all containers, volumes and images, run:
 
 ```console
 docker-compose stop
 docker-compose rm -f
 docker volume rm slurm-docker-cluster_etc_munge slurm-docker-cluster_etc_slurm slurm-docker-cluster_slurm_jobdir slurm-docker-cluster_var_lib_mysql slurm-docker-cluster_var_log_slurm
+docker rmi slurm-docker-cluster:20.02.4 mysql:5.7
 ```
+> Note: In the last step step substitute the tag you used, if not using the default.

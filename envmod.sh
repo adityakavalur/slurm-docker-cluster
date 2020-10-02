@@ -34,3 +34,14 @@ docker exec slurmctld bash -c \
 	ln -s $Prefix/init/profile.sh modules.sh && \
 	ln -s $Prefix/init/profile.csh modules.csh \
 	'
+#Add the links to /usr/local of all compute nodes so that you don't have to export PATH for it in all modulefiles
+for i in $(seq 1 $ncompute); do \
+	docker exec compute$i bash -c \
+		" \
+		export Prefix=/data/envmod/4.6.0 && \
+		cd /etc/profile.d/ && \
+		ln -s $Prefix/init/profile.sh modules.sh && \
+		ln -s $Prefix/init/profile.csh modules.csh \
+		";
+done
+
