@@ -20,13 +20,11 @@ for slurmjobs in xalt_dir:
       xalt2list=glob(slurmjobs2)
       for job2 in xalt2list:
          movefile = False
-         print(job2)
          with open(job2) as json_file:
             data = json.load(json_file)
             if 'userT' in data:
-               if data["userT"]["job_id"] != "unknown" :
+               if data["userT"]["job_id"] == os.environ.get('SLURM_JOBID') :
                   movefile = True
-         print(job2, movefile)
          if (movefile):
             xaltnum=slurmjobs
             xaltnum=slurmjobs.replace(org_dir,'')

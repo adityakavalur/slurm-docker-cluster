@@ -95,7 +95,8 @@ files in /usr/local, /usr/include and /etc/profile.d on the 'login' and compute 
 ```console
 ./envmod.sh
 ```
-> Note: There is an example module file in MPI_Examples 
+> Note: There is an example module file in MPI_Examples. The tcl/lua files need to be placed under
+/data/modulefiles/<sw name>/<version> 
  
 ## Install XALT2
 To install xalt2, run the script `xalt2.sh`. This will source and install xalt2 v2.9.8 as well

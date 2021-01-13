@@ -3,9 +3,12 @@ set -e
 
 #Copy the XALT2 configuration script into the 'login' node and set root as owner
 docker cp XALT2/mycluster_xalt2_config.py slurmctld:/data
+docker cp relocate_xaltjson.py slurmctld:/data
 docker cp XALT2/2.9.8.tcl slurmctld:/data
 docker exec slurmctld bash -c "/usr/bin/chown root:root /data/mycluster_xalt2_config.py"
+docker exec slurmctld bash -c "/usr/bin/chown root:root /data/relocate_xaltjson.py"
 docker exec slurmctld bash -c "/usr/bin/chown root:root /data/2.9.8.tcl"
+docker exec slurmctld bash -c "mkdir /data/xalt2_json_moved && chmod o+w /data/xalt2_json_moved"
 
 #Install XALT2
 docker exec slurmctld bash -c \
