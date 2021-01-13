@@ -1,6 +1,18 @@
 version: "2.2"
 
 services:
+  mysql2:
+    image: mysql:5.7
+    hostname: mysql2
+    container_name: mysql2
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: xalt_mycluster
+      MYSQL_USER: user_xalt
+      MYSQL_PASSWORD: password
+    volumes:
+      - var_lib_mysql2:/var/lib/mysql2
+
   mysql:
     image: mysql:5.7
     hostname: mysql
@@ -37,6 +49,7 @@ services:
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
+      - var_lib_mysql2:/var/lib/mysql2
     expose:
       - "6817"
     depends_on:
@@ -76,5 +89,6 @@ volumes:
   etc_munge:
   etc_slurm:
   slurm_jobdir:
+  var_lib_mysql2:
   var_lib_mysql:
   var_log_slurm:

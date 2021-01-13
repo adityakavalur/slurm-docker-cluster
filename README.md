@@ -86,27 +86,23 @@ however, you can pass an argument to override that
 ./codes_from_source.sh user1
 ```  
 
-## Installing environment modules
+## Installing environment modules or lmod
 To install environment modules, run the script `envmod.sh`. This will install tcl and environment
 modules in /data 
 
 To install Lmod run the script `lmod.sh`. This will install lmod in /data and put necessary 
 files in /usr/local, /usr/include and /etc/profile.d on the 'login' and compute nodes.
 ```console
-./lmod.sh
+./envmod.sh
 ```
 > Note: There is an example module file in MPI_Examples 
  
-
-## Installing Lmod
-
-To install Lmod run the script `lmod.sh`. This will install lmod in /data and put necessary 
-files in /usr/local, /usr/include and /etc/profile.d on the 'login' and compute nodes.
+## Install XALT2
+To install xalt2, run the script `xalt2.sh`. This will source and install xalt2 v2.9.8 as well
+as create a tcl modulefile for it under /data, that needs to be moved to an appropriate location.
 ```console
-./lmod.sh
+./xalt2.sh
 ```
-> Note: There is an example module file in MPI_Examples 
- 
 
 ## Accessing the Cluster
 
@@ -152,7 +148,7 @@ To remove all containers, volumes and images, run:
 ```console
 docker-compose stop
 docker-compose rm -f
-docker volume rm slurm-docker-cluster_etc_munge slurm-docker-cluster_etc_slurm slurm-docker-cluster_slurm_jobdir slurm-docker-cluster_var_lib_mysql slurm-docker-cluster_var_log_slurm
+docker volume rm slurm-docker-cluster_etc_munge slurm-docker-cluster_etc_slurm slurm-docker-cluster_slurm_jobdir slurm-docker-cluster_var_lib_mysql slurm-docker-cluster_var_lib_mysql2 slurm-docker-cluster_var_log_slurm
 docker rmi slurm-docker-cluster:20.02.4 mysql:5.7
 ```
 > Note: In the last step step substitute the tag you used, if not using the default.

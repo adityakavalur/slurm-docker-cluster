@@ -46,6 +46,7 @@ path_patterns = [
     ['PKGS',  r'.*\/test_record_pkg'],
     ['PKGS',  r'.*\/get_XALT_env'],
     ['KEEP',  r'^\/usr\/bin\/ddt'],
+    ['KEEP',  r'^\/usr\/bin\/srun'],
     ['SKIP',  r'^\/usr\/.*'],
     ['SKIP',  r'^\/sbin\/.*'],
     ['SKIP',  r'^\/bin\/.*'],

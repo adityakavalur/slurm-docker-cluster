@@ -5,4 +5,8 @@
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=2
 
+module load xalt2
+
 srun --mpi=pmi2 ./hello_world
+
+python3 /data/relocate_xaltjson.py
