@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+#Copy the module check script
+docker cp module_check.sh slurmctld:/data
+docker exec slurmctld bash -c "chmod 777 /data/module_check.sh"
+
 #Install TCL
 docker exec slurmctld bash -c \
 	' \
@@ -32,8 +36,9 @@ docker exec slurmctld bash -c \
 	rm -rf /data/modules && \
 	cd /etc/profile.d/ && \
 	ln -s $Prefix/init/profile.sh modules.sh && \
-	ln -s $Prefix/init/profile.csh modules.csh \
-	'
+	ln -s $Prefix/init/profile.csh modules.csh && \
+	chmod 777 /data/modulefiles \
+        '
 #Add the links to /usr/local of all compute nodes so that you don't have to export PATH for it in all modulefiles
 for i in $(seq 1 $ncompute); do \
 	docker exec compute$i bash -c \

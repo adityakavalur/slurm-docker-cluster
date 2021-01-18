@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+#Copy the module check script
+docker cp module_check.sh slurmctld:/data
+docker exec slurmctld bash -c "chmod 777 /data/module_check.sh"
+
 #Check number of compute nodes and exit if none found
 ncompute=$(docker ps | awk '{print $11}' | tail -n+2 | grep -ir 'compute' | wc -l)
 if [[ $ncompute == 0 ]]; then
@@ -54,8 +58,9 @@ docker exec slurmctld bash -c \
 	mkdir /data/modulefiles && \
 	echo '/data/modulefiles/' > /data/lmod/lmod/init/.modulespath && \
 	ln -s /data/lmod/lmod/init/profile /etc/profile.d/z00_lmod.sh && \
-	ln -s /data/lmod/lmod/init/cshrc /etc/profile.d/z00_lmod.csh \
-	"
+	ln -s /data/lmod/lmod/init/cshrc /etc/profile.d/z00_lmod.csh && \
+	chmod 777 /data/modulefiles \
+        "
 
 for i in $(seq 1 $ncompute); do \
 	docker exec compute$i bash -c \

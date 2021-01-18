@@ -20,7 +20,16 @@ docker exec slurmctld bash -c \
 	cd /data/xalt && \
 	./configure --prefix=$xalt2_dir --with-syshostConfig=hardcode:mycluster --with-transmission=file --with-config=/data/mycluster_xalt2_config.py --with-systemPath=/usr/bin:/bin:/usr/local/bin --with-xaltFilePrefix=$xalt2_output --with-trackScalarPrgms=no && \
 	make install && \
-	mkdir $xalt2_output
-        chmod o+w $xalt2_output 
-	rm -rf /data/xalt
+	mkdir $xalt2_output && \
+        chmod o+w $xalt2_output && \
+	rm -rf /data/xalt && \
+        echo 'installation complete' \
+        '
+
+docker exec slurmctld bash -c \
+        ' \
+        source /etc/profile && \
+        bash /data/module_check.sh && \
+        module_check=$(cat /tmp/module_check) && \
+        if [ $module_check -eq 102 ]; then mkdir /data/modulefiles/xalt2 && cp /data/2.9.8.tcl /data/modulefiles/xalt2/; fi \
 	'
