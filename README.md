@@ -20,6 +20,7 @@ The compose file will create the following named volumes:
 * etc_slurm         ( -> /etc/slurm     )
 * slurm_jobdir      ( -> /data          )
 * var_lib_mysql     ( -> /var/lib/mysql )
+* var_lib_mysql2    ( -> /var/lib/mysql2 )
 * var_log_slurm     ( -> /var/log/slurm )
 
 ## Building the Docker Image
@@ -76,16 +77,6 @@ To add users to slurm, so that they can submit jobs, update and run the `adduser
 > Note: You must ensure any new user added to the slurm database already exists
 > in the docker image. This is currently being done through the Dockerfile.
 
-## Moving source code into the container
-
-To move source code into the cluster, run the `codes_from_source.sh` script. This moves 
-the folder in MPI_Examples into the container under /data, which is mounted on the 'login' 
-as well as compute nodes. The default setting is to assign ownership of the folder to root, 
-however, you can pass an argument to override that
-```console
-./codes_from_source.sh user1
-```  
-
 ## Installing environment modules or lmod
 To install environment modules, run the script `envmod.sh`. This will install tcl and environment
 modules in /data 
@@ -97,7 +88,17 @@ files in /usr/local, /usr/include and /etc/profile.d on the 'login' and compute 
 ```
 > Note: There is an example module file in MPI_Examples. The tcl/lua files need to be placed under
 /data/modulefiles/<sw name>/<version> 
- 
+
+## Moving source code into the container
+
+To move source code into the cluster, run the `codes_from_source.sh` script. This moves 
+the folder in MPI_Examples into the container under /data, which is mounted on the 'login' 
+as well as compute nodes. The default setting is to assign ownership of the folder to root, 
+however, you can pass an argument to override that
+```console
+./codes_from_source.sh user1
+```  
+
 ## Install XALT2
 To install xalt2, run the script `xalt2.sh`. This will source and install xalt2 v2.9.8 as well
 as create a tcl modulefile for it under /data, that needs to be moved to an appropriate location.

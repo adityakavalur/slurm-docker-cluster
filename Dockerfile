@@ -58,7 +58,9 @@ RUN \
     ./configure && \
     make && make install && \
     cd /usr/local/src && \
-    rm -rf mpich-3.3
+    rm -rf mpich-3.3 && \
+    pip install mpi4py
+#Python package above is optional 
 
 #Lmod/Tcl dependencies (Optional)
 RUN \

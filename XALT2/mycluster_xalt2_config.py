@@ -41,51 +41,22 @@ hostname_patterns = [
 # These are marked as SPSR
 
 path_patterns = [
-    ['PKGS',  r'.*\/python[0-9][^/][^/]*'],
+    ['PKGS',  r'.*\/python[0-9.]*'],
     ['PKGS',  r'.*\/R'],
     ['PKGS',  r'.*\/test_record_pkg'],
     ['PKGS',  r'.*\/get_XALT_env'],
-    ['KEEP',  r'^\/usr\/bin\/ddt'],
-    ['KEEP',  r'^\/usr\/bin\/srun'],
-    ['SKIP',  r'^\/usr\/.*'],
-    ['SKIP',  r'^\/sbin\/.*'],
-    ['SKIP',  r'^\/bin\/.*'],
-    ['SKIP',  r'^\/etc\/.*'],
-    ['SKIP',  r'^\/root\/.*'],
-    ['SKIP',  r'.*\/gcc'],
-    ['SKIP',  r'.*\/g\+\+'],
-    ['SKIP',  r'.*\/cc1plus'],
-    ['SKIP',  r'.*\/cc1'],
-    ['SKIP',  r'.*\/collect2'],
-    ['SKIP',  r'.*\/f951'],
-    ['SKIP',  r'.*\/gfortran'],
-    ['SKIP',  r'.*\/git'],
-    ['SKIP',  r'.*\/icc'],
-    ['SKIP',  r'.*\/icpc'],
-    ['SKIP',  r'.*\/ifort'],
-    ['SKIP',  r'.*\/lua'],
-    ['SKIP',  r'.*\/mpiCC'],
-    ['SKIP',  r'.*\/mpicc'],
-    ['SKIP',  r'.*\/mpicxx'],
-    ['SKIP',  r'.*\/mpif77'],
-    ['SKIP',  r'.*\/mpif90'],
-    ['SKIP',  r'.*\/mpifort'],
-    ['SKIP',  r'.*\/mpifc'],
-    ['SKIP',  r'.*\/mpigcc'],
-    ['SKIP',  r'.*\/mpigxx'],
-    ['SKIP',  r'.*\/mpiicc'],
-    ['SKIP',  r'.*\/mpiicpc'],
-    ['SKIP',  r'.*\/mpiifort'],
-    ['SKIP',  r'.*\/mpiexec.hydra'],
-    ['SKIP',  r'.*\/hydra_pmi_proxy'],
-    ['SKIP',  r'.*\/ompi_info'],
-    ['SKIP',  r'.*\/opal_wrapper'],
-    ['SKIP',  r'.*\/orterun'],
-    ['SKIP',  r'.*\/vtwrapper'],
-    ['SKIP',  r'.*\/conftest'],
-    ['SKIP',  r'.*\/CMakeTmp\/cmTryCompileExec[0-9][0-9]*'],
-    ['SKIP',  r'.*\/CMakeTmp\/cmTC_[a-f0-9][a-f0-9]*'],
   ]
+
+
+# Here are patterns for non-mpi programs to produce a start-record.
+# Normally non-mpi programs (a.k.a.) scalar executables only produce
+# an end-record, but programs like R and python that can have optional data
+# such as R and python must have a start-record.
+
+scalar_prgm_start_record = [
+    r'/python[0-9][^/][^/]*$',
+    r'/R$'
+    ]
     
 #------------------------------------------------------------
 # XALT filter environment variables.  Those variables
@@ -112,46 +83,11 @@ path_patterns = [
 
 
 env_patterns = [
-    [ 'SKIP', r'^MKLROOT=.*' ],
-    [ 'SKIP', r'^MKL_DIR=.*' ],
-    [ 'SKIP', r'^MKL_INCLUDE=.*' ],
-    [ 'SKIP', r'^MKL_LIB=.*' ],
-    [ 'SKIP', r'^MPICH_HOME=.*' ],
-    [ 'SKIP', r'^MV2_COMM_WORLD=.*'],
-    [ 'SKIP', r'^MV2_CPU_BINDING_POLICY=.*' ],
-    [ 'SKIP', r'^MV2_DEFAULT_TIME_OUT=.*' ],
-    [ 'SKIP', r'^MV2_HOMOGENEOUS_CLUSTER=.*' ],
-    [ 'SKIP', r'^MV2_HYBRID_BINDING_POLICY=.*' ],
-    [ 'SKIP', r'^MV2_IBA_HCA=.*' ],
-    [ 'SKIP', r'^MV2_NODE_ID=.*' ],
-    [ 'SKIP', r'^MV2_NUM_NODES_IN_JOB=.*' ],
-    [ 'SKIP', r'^MV2_THREADS_PER_PROCESS=.*' ],
-    [ 'SKIP', r'^MV2_USE_HUGEPAGES=.*' ],
-    [ 'SKIP', r'^MV2_USE_OLD_BCAST=.*' ],
-    [ 'SKIP', r'^MV2_USE_RING_STARTUP=.*' ],
-    [ 'SKIP', r'^MV2_USE_UD_HYBRID=.*' ],
-    [ 'SKIP', r'^OMP_NUM_THREADS=.*' ],
-    [ 'SKIP', r'^__.*'],
-    [ 'KEEP', r'^I_MPI_INFO_NUMA_NODE_MAP=.*' ],
-    [ 'KEEP', r'^I_MPI_INFO_NUMA_NODE_NUM=.*'],
-    [ 'KEEP', r'^I_MPI_PIN_INFO=.*'],
-    [ 'KEEP', r'^I_MPI_PIN_MAPPING=.*'],
-    [ 'KEEP', r'^I_MPI_THREAD_LEVEL=.*'],
-    [ 'KEEP', r'^I_MPI_TMI_PROVIDER=.*'],
-    [ 'KEEP', r'^LAUNCHER_JID=.*'],
-    [ 'KEEP', r'^LD=.*'],
-    [ 'KEEP', r'^LD_LIBRARY_PATH=.*'],
-    [ 'KEEP', r'^LOADEDMODULES=.*'],
-    [ 'KEEP', r'^MODULEPATH=.*'],
-    [ 'KEEP', r'^MKL.*'],
-    [ 'KEEP', r'^MV2_.*'],
-    [ 'KEEP', r'^OFFLOAD.*'],
+    [ 'KEEP', r'^OMP_NUM_THREADS=.*' ],
     [ 'KEEP', r'^OMP.*'],
     [ 'KEEP', r'^PATH=.*'],
     [ 'KEEP', r'^PYTHON.*'],
     [ 'KEEP', r'^R_.*'],
-    [ 'KEEP', r'^TACC_AFFINITY_ENABLED=.*'],
-    [ 'KEEP', r'^_LMFILES_=.*']
   ]
 
 #------------------------------------------------------------
@@ -214,10 +150,14 @@ MPI_ALWAYS_RECORD = 2
 # Note that scalar execution only uses this table IFF
 # $XALT_SCALAR_AND_SPSR_SAMPLING equals yes
 
-#interval_array = [
-#    [ 0.0,                1.0 ],
-#    [ sys.float_info.max, 1.0 ]
-#]
+interval_array = [
+    [ 0.0,                1.0 ],
+    [ sys.float_info.max, 1.0 ]
+]
+mpi_interval_array = [
+    [ 0.0,                1.0 ],
+    [ sys.float_info.max, 1.0 ]
+]
 
 #------------------------------------------------------------
 # Python pattern for python package tracking
@@ -225,10 +165,10 @@ MPI_ALWAYS_RECORD = 2
 # Note that sys, os, re, and subprocess can not be tracked due to the way that python tracking works.
 
 python_pkg_patterns = [
-  { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r"^[^/]"      },  # SKIP all built-in packages
-  { 'k_s' : 'SKIP', 'kind' : 'name', 'patt' : r"^_"         },  # SKIP names that start with a underscore
-  { 'k_s' : 'SKIP', 'kind' : 'name', 'patt' : r".*\."       },  # SKIP all names that are divided with periods: a.b.c
+  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r".*/site-packages/"      },  # KEEP all built-in packages
+  { 'k_s' : 'KEEP', 'kind' : 'name', 'patt' : r"^_"         },  # KEEP names that start with a underscore
+  { 'k_s' : 'KEEP', 'kind' : 'name', 'patt' : r".*\."       },  # KEEP all names that are divided with periods: a.b.c
   { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r".*/.local/" },  # KEEP all packages installed by users
-  { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r"/home"      },  # SKIP all other packages in user locations
-  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r"/data"      },  # SKIP all other packages in user locations
+  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r"^/home"      },  # KEEP all other packages in user locations
+  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r"^/data"      },  # KEEP all other packages in user locations
 ]
