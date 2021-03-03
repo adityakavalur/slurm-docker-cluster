@@ -67,8 +67,12 @@ RUN \
     yum -y install tcl-8.5.13-8.el7.x86_64  \
                    tcl-devel-8.5.13-8.el7.x86_64 \
                    lua-posix \
-		   dejagnu man-db sphinx-build dh-autoreconf 
-
+		   dejagnu man-db sphinx-build dh-autoreconf
+		   
+# Add `jq` json query, for parsing XALT-json output
+RUN \
+    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum -y install jq
 
 RUN  \
        useradd user_xalt \
