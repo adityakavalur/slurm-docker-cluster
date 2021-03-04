@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+#Create a scratch directory
+docker cp create_scratch.sh slurmctld:/
+docker exec slurmctld bash -c "/usr/bin/bash create_scratch.sh"
+
 #Copy the XALT2 configuration script into the 'login' node and set root as owner
 docker cp XALT2/mycluster_xalt2_config.py slurmctld:/data
 docker cp relocate_xaltjson.py slurmctld:/data
