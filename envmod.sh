@@ -17,7 +17,7 @@ docker exec slurmctld bash -c \
 	make && \
 	make install && \
 	cd $Prefix/../ && \
-	ln -s 8.6.10 tcl && \
+	ln -sfn 8.6.10 tcl && \
 	rm -rf /data/tcl8.6.10 \
 	'
 
@@ -32,21 +32,28 @@ docker exec slurmctld bash -c \
 	make && \
 	make install && \
 	cd $Prefix/../ && \
-	ln -s 4.6.0 envmod && \
+	ln -sfn 4.6.0 envmod && \
 	rm -rf /data/modules && \
 	cd /etc/profile.d/ && \
-	ln -s $Prefix/init/profile.sh modules.sh && \
-	ln -s $Prefix/init/profile.csh modules.csh && \
+	ln -sfn $Prefix/init/profile.sh modules.sh && \
+	ln -sfn $Prefix/init/profile.csh modules.csh && \
 	chmod 777 /data/modulefiles \
         '
 #Add the links to /usr/local of all compute nodes so that you don't have to export PATH for it in all modulefiles
+#Check number of compute nodes and exit if none found
+ncompute=$(docker ps | awk '{print $11}' | tail -n+2 | grep -ir 'compute' | wc -l)
+if [[ $ncompute == 0 ]]; then
+        echo "No compute nodes found"
+        exit 1
+fi
+
 for i in $(seq 1 $ncompute); do \
 	docker exec compute$i bash -c \
-		" \
+		' \
 		export Prefix=/data/envmod/4.6.0 && \
 		cd /etc/profile.d/ && \
-		ln -s $Prefix/init/profile.sh modules.sh && \
-		ln -s $Prefix/init/profile.csh modules.csh \
-		";
+		ln -sfn $Prefix/init/profile.sh modules.sh && \
+		ln -sfn $Prefix/init/profile.csh modules.csh \
+		';
 done
 
