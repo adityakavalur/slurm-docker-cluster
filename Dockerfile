@@ -50,16 +50,9 @@ RUN \
 
 #MPICH (optional)
 RUN \
-    cd /usr/local/src/ && \
-    wget http://www.mpich.org/static/downloads/3.3/mpich-3.3.tar.gz && \
-    tar xf mpich-3.3.tar.gz && \
-    rm mpich-3.3.tar.gz && \
-    cd mpich-3.3 && \
-    ./configure && \
-    make && make install && \
-    cd /usr/local/src && \
-    rm -rf mpich-3.3 && \
-    pip install mpi4py
+    yum -y install mpich-3.2-devel && \
+    ln -s /usr/lib64/mpich-3.2/bin/* /usr/bin/ && \
+    pip install --global-option=build_ext --global-option="-I/usr/include/mpich-3.2-x86_64/" --global-option="-L/usr/lib64/mpich-3.2/lib/" --global-option="-L/usr/lib/mpich-3.2/lib/" mpi4py
 #Python package above is optional 
 
 #Lmod/Tcl dependencies (Optional)
