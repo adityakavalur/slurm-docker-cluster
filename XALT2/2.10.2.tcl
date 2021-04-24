@@ -2,7 +2,7 @@
 ##
 ## modules modulefile
 ##
-module-whatis XALT2 - v2.9.8 is loaded
+module-whatis XALT2 - v2.10.2 is loaded
 
 setenv       XALT_EXECUTABLE_TRACKING yes
 setenv       XALT_DIR                 /data/xalt2/xalt/xalt
