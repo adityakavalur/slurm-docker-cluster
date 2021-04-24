@@ -65,11 +65,11 @@ docker exec slurmctld bash -c \
 
 #Everything below this fails, need to run manually.
 docker exec slurmctld bash -c \
-        " \
+        ' \
         source /etc/profile && \
         cd /data/xalt2/xalt/xalt/sbin && \
-        python3 createDB.py --confFn xalt_mycluster_db.conf \        
-        "
+        python3 createDB.py --confFn xalt_mycluster_db.conf \
+        '
 
 docker exec slurmctld bash -c \
         ' \
