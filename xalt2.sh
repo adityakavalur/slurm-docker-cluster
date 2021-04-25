@@ -9,6 +9,7 @@ if [ $# -eq 0 ]
 else
   export sourcerepo="$1"
   export branch="$2"
+  export xalt2_output="$3"
 fi
 
 if [ -z "$branch" ]
@@ -33,7 +34,13 @@ docker exec slurmctld bash -c "mkdir /data/xalt2_json_moved && chmod o+w /data/x
 
 #Exporting variables from outside the container shell, to be consistent with sourcerepo/branch selection
 export xalt2_dir=/data/xalt2
-export xalt2_output=/data/xalt2_json
+if [ -z "$xalt2_output" ]
+then
+   export xalt2_output=/data/xalt2_json
+else
+   export USER_DIRNAME="$xalt2_output"
+   export xalt2_output=USER_DIR
+fi
 export XALT_SAMPLING=yes
 export XALT_SCALAR_AND_SPSR_SAMPLING=yes
 
@@ -42,9 +49,10 @@ docker exec slurmctld bash -c \
 	" \
 	cd /data && \
         echo 'Cloning $sourcerepo branch $branch' && \
+        echo 'USER_DIRNAME $USER_DIRNAME' && \
 	git clone --depth 1 --branch $branch $sourcerepo && \
 	cd /data/xalt && \
-	./configure --prefix=$xalt2_dir --with-syshostConfig=hardcode:mycluster --with-transmission=file --with-config=/data/mycluster_xalt2_config.py --with-systemPath=/usr/bin:/bin:/usr/local/bin --with-xaltFilePrefix=$xalt2_output --with-trackScalarPrgms=yes && \
+	./configure --prefix=$xalt2_dir --with-syshostConfig=hardcode:mycluster --with-transmission=file --with-config=/data/mycluster_xalt2_config.py --with-systemPath=/usr/bin:/bin:/usr/local/bin --with-xaltFilePrefix=$xalt2_output --with-userdirname=$USER_DIRNAME --with-trackScalarPrgms=yes && \
 	make install && \
         echo 'xalt2_output $xalt2_output' && \
 	mkdir $xalt2_output && \
