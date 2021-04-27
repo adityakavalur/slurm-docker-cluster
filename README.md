@@ -105,6 +105,10 @@ as create a tcl modulefile for it under /data, that needs to be moved to an appr
 ```console
 ./xalt2.sh
 ```
+Alternatively, you can target a custom xalt repository/branch/version
+```console
+./xalt2.sh https://github.com/adityakavalur/xalt.git userjsonindex SCRATCH 
+```
 
 ## Accessing the Cluster
 
