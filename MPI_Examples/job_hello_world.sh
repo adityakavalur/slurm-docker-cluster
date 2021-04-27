@@ -5,6 +5,7 @@
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=2
 
+export SCRATCH=/data/scratch/$USER
 module load xalt2
 
 srun --mpi=pmi2 ./hello_world

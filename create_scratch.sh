@@ -10,4 +10,5 @@ do
    temp_user=$(sacctmgr list users | tail -n+3 | awk '{print $1}' | sed -n "${iuser}p")
    mkdir /data/scratch/${temp_user}
    chown ${temp_user}:${temp_user} /data/scratch/${temp_user}
+   echo "export SCRATCH=/data/scratch/${temp_user}/" >> /home/${temp_user}/.bash_profile 
 done
