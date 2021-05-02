@@ -6,7 +6,7 @@ docker cp module_check.sh slurmctld:/data
 docker exec slurmctld bash -c "chmod 777 /data/module_check.sh"
 
 #Check number of compute nodes and exit if none found
-ncompute=$(docker ps | awk '{print $11}' | tail -n+2 | grep -ir 'compute' | wc -l)
+ncompute=$(docker ps | awk '{print $NF}' | tail -n+2 | grep -ir 'compute' | wc -l)
 if [[ $ncompute == 0 ]]; then
 	echo "No compute nodes found"
         exit 1

@@ -27,9 +27,11 @@ docker cp XALT2/mycluster_xalt2_config.py slurmctld:/data
 docker cp relocate_xaltjson.py slurmctld:/data
 
 docker cp XALT2/2.10.2.tcl slurmctld:/data
+docker cp XALT2/2.10.2.lua slurmctld:/data
 docker exec slurmctld bash -c "/usr/bin/chown root:root /data/mycluster_xalt2_config.py"
 docker exec slurmctld bash -c "/usr/bin/chown root:root /data/relocate_xaltjson.py"
 docker exec slurmctld bash -c "/usr/bin/chown root:root /data/2.10.2.tcl"
+docker exec slurmctld bash -c "/usr/bin/chown root:root /data/2.10.2.lua"
 docker exec slurmctld bash -c "mkdir /data/xalt2_json_moved && chmod o+w /data/xalt2_json_moved"
 
 #Exporting variables from outside the container shell, to be consistent with sourcerepo/branch selection
@@ -85,4 +87,5 @@ docker exec slurmctld bash -c \
         bash /data/module_check.sh && \
         module_check=$(cat /tmp/module_check) && \
         if [ $module_check -eq 102 ]; then mkdir /data/modulefiles/xalt2 && cp /data/2.10.2.tcl /data/modulefiles/xalt2/; fi 
+        if [ $module_check -eq 101 ]; then mkdir /data/modulefiles/xalt2 && cp /data/2.10.2.lua /data/modulefiles/xalt2/; fi 
 	'

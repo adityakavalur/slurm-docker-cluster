@@ -41,7 +41,7 @@ docker exec slurmctld bash -c \
         '
 #Add the links to /usr/local of all compute nodes so that you don't have to export PATH for it in all modulefiles
 #Check number of compute nodes and exit if none found
-ncompute=$(docker ps | awk '{print $11}' | tail -n+2 | grep -ir 'compute' | wc -l)
+ncompute=$(docker ps | awk '{print $NF}' | tail -n+2 | grep -ir 'compute' | wc -l)
 if [[ $ncompute == 0 ]]; then
         echo "No compute nodes found"
         exit 1
