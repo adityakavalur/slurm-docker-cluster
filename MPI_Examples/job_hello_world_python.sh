@@ -6,6 +6,7 @@
 #SBATCH --ntasks-per-node=2
 #SBATCH --time=00:05:00
 
+export SCRATCH=/data/scratch/$USER
 module load xalt2
 
 srun --mpi=pmi2 python helloworld.py

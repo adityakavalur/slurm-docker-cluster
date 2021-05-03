@@ -4,6 +4,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=2
+#SBATCH --time=00:05:00
 
 export SCRATCH=/data/scratch/$USER
 module load xalt2
