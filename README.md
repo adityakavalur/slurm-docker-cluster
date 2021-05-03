@@ -121,9 +121,10 @@ docker exec -it slurmctld bash
 From the shell, execute slurm commands, for example:
 
 ```console
-[root@slurmctld /]# sinfo
-PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-normal*      up 5-00:00:00      2   idle compute[1-2]
+[root@slurmctld /]# su user1
+[user1@slurmctld /]$ sinfo
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST 
+normal*      up 5-00:00:00      2   idle compute[1-2] 
 ```
 
 ## Submitting Jobs
@@ -133,11 +134,22 @@ Therefore, in order to see job output files while on the controller, change to
 the `/data` directory when on the **slurmctld** container and then submit a job:
 
 ```console
-[root@slurmctld /]# cd /data/
-[root@slurmctld data]# sbatch --wrap="uptime"
+[root@slurmctld /]# su user1
+[user1@slurmctld /]$ cd /data/MPI_Examples/
+[user1@slurmctld MPI_Examples]$ sbatch job_hello_world.sh 
 Submitted batch job 2
-[root@slurmctld data]# ls
-slurm-2.out
+[user1@slurmctld MPI_Examples]$ cat slurm-2.out 
+Hello world from processor compute2, rank 2 out of 4 processors
+Hello world from processor compute1, rank 1 out of 4 processors
+Hello world from processor compute2, rank 3 out of 4 processors
+Hello world from processor compute1, rank 0 out of 4 processors
+[user1@slurmctld MPI_Examples]$ sbatch job_hello_world_python.sh 
+Submitted batch job 3
+[user1@slurmctld MPI_Examples]$ cat slurm-3.out 
+Hello, World! I am process 2 of 4 on compute2.
+Hello, World! I am process 0 of 4 on compute1.
+Hello, World! I am process 3 of 4 on compute2.
+Hello, World! I am process 1 of 4 on compute1.
 ```
 
 ## Stopping and Restarting the Cluster
