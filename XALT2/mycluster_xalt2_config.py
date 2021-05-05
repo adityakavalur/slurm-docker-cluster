@@ -161,14 +161,15 @@ mpi_interval_array = [
 
 #------------------------------------------------------------
 # Python pattern for python package tracking
+# NOTE: This is likely to be an added feature in XALT3, not implemented yet
 
 # Note that sys, os, re, and subprocess can not be tracked due to the way that python tracking works.
 
-python_pkg_patterns = [
-  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r".*/site-packages/"      },  # KEEP all built-in packages
-  { 'k_s' : 'KEEP', 'kind' : 'name', 'patt' : r"^_"         },  # KEEP names that start with a underscore
-  { 'k_s' : 'KEEP', 'kind' : 'name', 'patt' : r".*\."       },  # KEEP all names that are divided with periods: a.b.c
-  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r".*/.local/" },  # KEEP all packages installed by users
-  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r"^/home"      },  # KEEP all other packages in user locations
-  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r"^/data"      },  # KEEP all other packages in user locations
-]
+#python_pkg_patterns = [
+#  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r".*/site-packages/"      },  # KEEP all built-in packages
+#  { 'k_s' : 'KEEP', 'kind' : 'name', 'patt' : r"^_"         },  # KEEP names that start with a underscore
+#  { 'k_s' : 'KEEP', 'kind' : 'name', 'patt' : r".*\."       },  # KEEP all names that are divided with periods: a.b.c
+#  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r".*/.local/" },  # KEEP all packages installed by users
+#  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r"^/home"      },  # KEEP all other packages in user locations
+#  { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r"^/data"      },  # KEEP all other packages in user locations
+#]
